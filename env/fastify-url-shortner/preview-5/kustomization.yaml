@@ -11,7 +11,7 @@ resources:
 images:
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/url-shortener
-  newTag: 86ec342c6b3621596ae6f8b2dd26f45d285e9cf6
+  newTag: bf93b6ad3d6876dd2aa80abc62f28577b591e634
 patches:
 - patch: '[{"op": "replace", "path": "/spec/rules/0/host", "value":"foo-5"}]'
   target:
