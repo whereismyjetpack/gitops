@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: url-shortner-preview-6
+
+resources:
+- deployment.yaml
+- ingress.yaml
+- service.yaml
+
+images:
+- name: fastify-url-shortner
+  newName: ghcr.io/whereismyjetpack/url-shortener
+  newTag: bf93b6ad3d6876dd2aa80abc62f28577b591e634
+patches:
+- patch: '[{"op": "replace", "path": "/spec/rules/0/host", "value":"foo-6"}]'
+  target:
+    kind: Ingress
+    name: fastify-url-shortner
