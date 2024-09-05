@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: nginx-deployment
   labels:
-    app: nginx
+    app: fastify-url-shortner
 spec:
   replicas: 3
   selector:
