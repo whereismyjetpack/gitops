@@ -11,4 +11,4 @@ resources:
 images:
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/url-shortener
-  newTag: 22649fd57ca967afbe54cfdc9a7385535a8aeee0
+  newTag: 3056573537c582c1e21549f307a4ac12745a1e23
