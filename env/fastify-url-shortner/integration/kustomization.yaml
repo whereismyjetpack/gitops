@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: int
 resources:
 - deployment.yaml
-- ingress.yaml
 - service.yaml
 images:
 - name: fastify-url-shortner
