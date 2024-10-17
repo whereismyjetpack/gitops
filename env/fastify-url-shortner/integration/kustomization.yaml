@@ -6,7 +6,7 @@ resources:
 - service.yaml
 images:
 - name: fastify-url-shortner
-  newName: public.ecr.aws/nginx/nginx
-  newTag: 1.25.0
+  newName: ghcr.io/whereismyjetpack/url-shortener
+  newTag: fb91398a07c01412c375aa12a2d7d5b7de55856c
 - name: public.ecr.aws/nginx/nginx
   newTag: 1.27.2
