@@ -7,6 +7,6 @@ resources:
 images:
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/url-shortener
-  newTag: b5a893723c4e4e324c0ce72bc04fcf6542ddc4fe
+  newTag: 8ec9819a29468e727525fc3dd77830d684bd54a5
 - name: public.ecr.aws/nginx/nginx
   newTag: 1.27.2
