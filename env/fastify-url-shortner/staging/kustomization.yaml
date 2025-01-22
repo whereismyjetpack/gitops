@@ -5,6 +5,9 @@ resources:
 - deployment.yaml
 - service.yaml
 images:
+- name: api
+  newName: ghcr.io/whereismyjetpack/monorepo
+  newTag: c9972d7379ed6a5bbea24f0e339e2c7a195ddb1b
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/url-shortener
   newTag: 1c77616a1092268608ba6d0523d54ca25bb6e39f
