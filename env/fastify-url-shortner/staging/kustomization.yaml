@@ -10,3 +10,6 @@ images:
   newTag: 1c77616a1092268608ba6d0523d54ca25bb6e39f
 - name: public.ecr.aws/nginx/nginx
   newTag: 1.27.2
+- name: web
+  newName: ghcr.io/whereismyjetpack/monorepo
+  newTag: ed6b4f4ba9e65581e5ab60afda995cb19a4f43a2
