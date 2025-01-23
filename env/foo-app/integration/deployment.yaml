@@ -1,0 +1,22 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-foo
+  labels:
+    app: fastify-url-shortner-foo
+spec:
+  replicas: 19
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: fastify-url-shortner
+        image: public.ecr.aws/nginx/nginx:latest
+        ports:
+        - containerPort: 80
