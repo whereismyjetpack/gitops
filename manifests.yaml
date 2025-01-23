@@ -16,7 +16,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: ghcr.io/whereismyjetpack/url-shortener:c47d8cc9bc33ccceabe5260fd352cca5297dd60e3
+      - image: public.ecr.aws/nginx/nginx:1.27.3
         name: fastify-url-shortner
         ports:
         - containerPort: 80
