@@ -4,7 +4,7 @@ metadata:
   labels:
     app: fastify-url-shortner
   name: nginx-deployment
-  namespace: int
+  namespace: staging
 spec:
   replicas: 3
   selector:
@@ -25,7 +25,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: fastify-url-shortner
-  namespace: int
+  namespace: staging
 spec:
   ports:
   - port: 80
