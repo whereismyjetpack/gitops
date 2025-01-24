@@ -16,7 +16,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-web:v0.0.3
+      - image: nginx:1.14.2
         name: fastify-url-shortner
         ports:
         - containerPort: 80
