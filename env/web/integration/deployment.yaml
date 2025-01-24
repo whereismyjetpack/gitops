@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: fastify-url-shortner
-        image: public.ecr.aws/nginx/nginx:latest
+        image: web:latest
         ports:
         - containerPort: 80

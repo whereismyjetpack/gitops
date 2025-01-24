@@ -5,8 +5,6 @@ resources:
 - deployment.yaml
 - service.yaml
 images:
-- name: fastify-url-shortner
-  newName: ghcr.io/whereismyjetpack/url-shortener
+- name: web
+  newName: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-web
   newTag: c47d8cc9bc33ccceabe5260fd352cca5297dd60e3
-- name: public.ecr.aws/nginx/nginx
-  newTag: 1.27.2
