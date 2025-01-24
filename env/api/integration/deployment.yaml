@@ -16,7 +16,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: api
-        image: public.ecr.aws/nginx/nginx:latest
+      - name: main
+        image: api:latest
         ports:
         - containerPort: 80
