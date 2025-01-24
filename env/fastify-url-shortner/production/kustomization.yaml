@@ -12,3 +12,6 @@ images:
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/fastify-url-shortener
   newTag: eb9bc72bf7d3777027462df239f4e04485baede7
+- name: web
+  newName: ghcr.io/whereismyjetpack/monorepo-web
+  newTag: web-0.0.2
