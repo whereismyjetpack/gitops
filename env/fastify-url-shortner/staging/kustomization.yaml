@@ -15,4 +15,4 @@ images:
   newTag: 1.27.2
 - name: web
   newName: ghcr.io/whereismyjetpack/monorepo-web
-  newTag: web-0.0.4
+  newTag: web-0.0.5
