@@ -7,7 +7,7 @@ resources:
 images:
 - name: api
   newName: ghcr.io/whereismyjetpack/monorepo-api
-  newTag: api-0.0.4
+  newTag: api-0.0.5
 - name: fastify-url-shortner
   newName: ghcr.io/whereismyjetpack/url-shortener
   newTag: 1c77616a1092268608ba6d0523d54ca25bb6e39f
