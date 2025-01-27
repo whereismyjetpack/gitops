@@ -4,6 +4,7 @@ metadata:
   labels:
     app: fastify-url-shortner
     foo: bar
+    food: baz
   name: nginx-deployment
   namespace: staging
 spec:
