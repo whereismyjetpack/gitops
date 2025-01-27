@@ -4,7 +4,6 @@ metadata:
   labels:
     app: fastify-url-shortner
     foo: bar
-    thing: true
   name: nginx-deployment
   namespace: int
 spec:
