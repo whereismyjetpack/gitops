@@ -5,6 +5,7 @@ metadata:
   name: nginx-deployment
   labels:
     app: fastify-url-shortner
+    foo: bar
 spec:
   replicas: 3
   selector:
