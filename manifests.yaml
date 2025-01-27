@@ -17,7 +17,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-api:v0.0.3
+      - image: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-api:v0.0.4
         name: main
         ports:
         - containerPort: 80
