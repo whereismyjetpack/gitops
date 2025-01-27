@@ -4,6 +4,7 @@ metadata:
   labels:
     app: fastify-url-shortner
     foo: bar
+    thing: true
   name: nginx-deployment
   namespace: int
 spec:
@@ -17,7 +18,7 @@ spec:
         app: nginx
     spec:
       containers:
-      - image: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-api:v0.0.4
+      - image: 774331681746.dkr.ecr.us-west-2.amazonaws.com/pro-monorepo-api:vc7a8234be646ca94d675344ca5023560cbcd2462
         name: main
         ports:
         - containerPort: 80
