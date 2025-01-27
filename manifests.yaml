@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: fastify-url-shortner
-  name: nginx-deployment
+  name: nginx-deployment-web
   namespace: int
 spec:
   replicas: 19
@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fastify-url-shortner
+  name: fastify-url-shortner-web
   namespace: int
 spec:
   ports:
