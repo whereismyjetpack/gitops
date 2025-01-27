@@ -6,7 +6,7 @@ metadata:
   labels:
     app: fastify-url-shortner
     foo: bar
-    foo: baz
+    food: baz
 spec:
   replicas: 3
   selector:
