@@ -5,7 +5,6 @@ metadata:
   name: nginx-deployment
   labels:
     app: fastify-url-shortner
-    foo: bar
     ls: yah
     asdf: asdf
     food: baz
