@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: fastify-url-shortner
+    foo: bar
   name: nginx-deployment-web
   namespace: int
 spec:
