@@ -6,8 +6,6 @@ metadata:
   labels:
     app: fastify-url-shortner
     ls: yah
-    asdf: asdf
-    food: baz
 spec:
   replicas: 3
   selector:
