@@ -3,9 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: fastify-url-shortner
-    asdf: asdf
-    food: baz
-    ls: yah
+    foo: bar
   name: nginx-deployment
   namespace: staging
 spec:
