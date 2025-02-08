@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   labels:
     app: fastify-url-shortner
@@ -13,6 +13,11 @@ spec:
     matchLabels:
       app: fastify-url-shortner
       env: staging
+  strategy:
+    blueGreen:
+      activeService: fastify-url-shortner
+      autoPromotionEnabled: true
+      previewService: fastify-url-shortner-preview
   template:
     metadata:
       labels:
@@ -42,3 +47,20 @@ spec:
     app: fastify-url-shortner
     env: staging
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fastify-url-shortner
+    env: staging
+  name: fastify-url-shortner-preview
+  namespace: staging
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: fastify-url-shortner
+    env: staging
