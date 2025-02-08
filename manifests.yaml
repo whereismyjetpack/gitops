@@ -13,7 +13,7 @@ spec:
     matchLabels:
       app: nginx
   strategy:
-    blue-green:
+    blueGreen:
       activeService: fastify-url-shortner
       autoPromotionEnabled: true
       previewService: fastify-url-shortner-preview
