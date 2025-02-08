@@ -8,7 +8,7 @@ metadata:
     foo: bar
 spec:
   strategy:
-    blue-green:
+    blueGreen:
       activeService: fastify-url-shortner
       previewService: fastify-url-shortner-preview
       autoPromotionEnabled: true
