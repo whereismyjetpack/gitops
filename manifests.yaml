@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: fastify-url-shortner
+    env: integration
     foo: bar
   name: nginx-deployment
   namespace: int
@@ -10,14 +11,16 @@ spec:
   replicas: 19
   selector:
     matchLabels:
-      app: nginx
+      app: fastify-url-shortner
+      env: integration
   template:
     metadata:
       labels:
-        app: nginx
+        app: fastify-url-shortner
+        env: integration
     spec:
       containers:
-      - image: nginx:1.27.4
+      - image: nginx:1.26.3
         name: main
         ports:
         - containerPort: 80
@@ -25,6 +28,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: fastify-url-shortner
+    env: integration
   name: fastify-url-shortner
   namespace: int
 spec:
@@ -34,4 +40,5 @@ spec:
     targetPort: 80
   selector:
     app: fastify-url-shortner
+    env: integration
   type: ClusterIP
