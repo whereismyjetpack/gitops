@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   labels:
     app: fastify-url-shortner
@@ -11,13 +11,16 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: fastify-url-shortner
-      env: integration
+      app: nginx
+  strategy:
+    blue-green:
+      activeService: fastify-url-shortner
+      autoPromotionEnabled: true
+      previewService: fastify-url-shortner-preview
   template:
     metadata:
       labels:
-        app: fastify-url-shortner
-        env: integration
+        app: nginx
     spec:
       containers:
       - image: nginx:1.27.4
@@ -42,3 +45,20 @@ spec:
     app: fastify-url-shortner
     env: integration
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fastify-url-shortner
+    env: integration
+  name: fastify-url-shortner-preview
+  namespace: int
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: fastify-url-shortner
+    env: integration
