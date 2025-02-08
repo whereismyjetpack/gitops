@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
+        app: fastify-url-shortner
     spec:
       containers:
       - image: nginx:1.27.4
