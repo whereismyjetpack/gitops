@@ -12,6 +12,7 @@ spec:
   selector:
     matchLabels:
       app: fastify-url-shortner
+      env: integration
   strategy:
     blueGreen:
       activeService: fastify-url-shortner
@@ -21,6 +22,7 @@ spec:
     metadata:
       labels:
         app: fastify-url-shortner
+        env: integration
     spec:
       containers:
       - image: nginx:1.27.4
