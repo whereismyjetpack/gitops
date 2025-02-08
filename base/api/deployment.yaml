@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nginx
+        app: fastify-url-shortner
     spec:
       containers:
       - name: main
