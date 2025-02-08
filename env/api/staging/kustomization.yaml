@@ -1,18 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 namespace: staging
+
+commonLabels:
+  app: fastify-url-shortner
+  env: staging
+
 resources:
-- deployment.yaml
-- service.yaml
-images:
-- name: api
-  newName: ghcr.io/whereismyjetpack/monorepo-api
-  newTag: api-0.0.3
-- name: fastify-url-shortner
-  newName: ghcr.io/whereismyjetpack/url-shortener
-  newTag: 1c77616a1092268608ba6d0523d54ca25bb6e39f
-- name: public.ecr.aws/nginx/nginx
-  newTag: 1.27.2
-- name: web
-  newName: ghcr.io/whereismyjetpack/monorepo-web
-  newTag: web-0.0.3
+  - ../../../base/api/
