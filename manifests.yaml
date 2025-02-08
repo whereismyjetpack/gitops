@@ -20,7 +20,7 @@ spec:
         env: integration
     spec:
       containers:
-      - image: nginx:1.26.3
+      - image: nginx:1.27.4
         name: main
         ports:
         - containerPort: 80
