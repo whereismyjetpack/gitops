@@ -11,3 +11,15 @@ spec:
       port: 80
       targetPort: 80
   type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastify-url-shortner-preview
+spec:
+  selector:
+    app: fastify-url-shortner
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

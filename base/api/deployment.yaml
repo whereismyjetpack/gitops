@@ -1,12 +1,17 @@
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: nginx-deployment
   labels:
     app: fastify-url-shortner
     foo: bar
 spec:
+  strategy:
+    blue-green:
+      activeService: fastify-url-shortner
+      previewService: fastify-url-shortner-preview
+      autoPromotionEnabled: true
   replicas: 2
   selector:
     matchLabels:
