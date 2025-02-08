@@ -3,27 +3,34 @@ kind: Deployment
 metadata:
   labels:
     app: fastify-url-shortner
+    env: staging
+    foo: bar
   name: nginx-deployment
   namespace: staging
 spec:
-  replicas: 3
+  replicas: 19
   selector:
     matchLabels:
-      app: nginx
+      app: fastify-url-shortner
+      env: staging
   template:
     metadata:
       labels:
-        app: nginx
+        app: fastify-url-shortner
+        env: staging
     spec:
       containers:
-      - image: ghcr.io/whereismyjetpack/url-shortener:1c77616a1092268608ba6d0523d54ca25bb6e39f
-        name: fastify-url-shortner
+      - image: nginx:1.26.3
+        name: main
         ports:
         - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    app: fastify-url-shortner
+    env: staging
   name: fastify-url-shortner
   namespace: staging
 spec:
@@ -33,4 +40,5 @@ spec:
     targetPort: 80
   selector:
     app: fastify-url-shortner
+    env: staging
   type: ClusterIP
