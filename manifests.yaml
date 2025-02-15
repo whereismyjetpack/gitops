@@ -13,6 +13,7 @@ spec:
     matchLabels:
       app: fastify-url-shortner
       env: integration
+      foo: bar
   strategy:
     blueGreen:
       activeService: fastify-url-shortner
@@ -23,6 +24,7 @@ spec:
       labels:
         app: fastify-url-shortner
         env: integration
+        foo: bar
     spec:
       containers:
       - image: nginx:1.26.3
@@ -36,6 +38,7 @@ metadata:
   labels:
     app: fastify-url-shortner
     env: integration
+    foo: bar
   name: fastify-url-shortner
   namespace: int
 spec:
@@ -46,6 +49,7 @@ spec:
   selector:
     app: fastify-url-shortner
     env: integration
+    foo: bar
   type: ClusterIP
 ---
 apiVersion: v1
@@ -54,6 +58,7 @@ metadata:
   labels:
     app: fastify-url-shortner
     env: integration
+    foo: bar
   name: fastify-url-shortner-preview
   namespace: int
 spec:
@@ -64,3 +69,4 @@ spec:
   selector:
     app: fastify-url-shortner
     env: integration
+    foo: bar
