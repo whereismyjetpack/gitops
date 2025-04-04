@@ -9,6 +9,5 @@ resources:
 labels:
 - includeSelectors: true
   pairs:
-    app: fastify-url-shortner
     env: staging
     foo: baz
