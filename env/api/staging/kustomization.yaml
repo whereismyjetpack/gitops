@@ -6,6 +6,7 @@ namespace: staging
 commonLabels:
   app: fastify-url-shortner
   env: staging
+  foo: bar
 
 resources:
   - ../../../base/api/
