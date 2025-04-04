@@ -51,6 +51,9 @@ jobs:
           ref: main
           path: main
 
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+
       - name: Build branches
         run: |
           kustomize build --enable-helm main/env/${{ matrix.env }} > main.yaml
