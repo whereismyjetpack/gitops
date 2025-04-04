@@ -32,6 +32,8 @@ jobs:
   diff:
     name: Diff
     runs-on: ubuntu-latest
+    permissions: 
+      pull-requests: write 
     needs: detect-changes
     strategy:
       fail-fast: false
@@ -51,8 +53,32 @@ jobs:
           ref: main
           path: main
 
-      - name: Build branches
+      - name: Setup kubectl-slice
+        run: |
+          wget https://github.com/patrickdappollonio/kubectl-slice/releases/download/v1.4.2/kubectl-slice_linux_x86_64.tar.gz
+          tar -xvf kubectl-slice_linux_x86_64.tar.gz
+
+      - name: Kustomize Build
         run: |
           kustomize build --enable-helm main/env/${{ matrix.env }} > main.yaml
           kustomize build --enable-helm env/${{ matrix.env }} > proposed.yaml
-          diff main.yaml proposed.yaml
+          ./kubectl-slice -f main.yaml -o current
+          ./kubectl-slice -f proposed.yaml -o proposed
+
+      - name: Compare Changes
+        id: diff
+        run: |
+          echo '```diff' > diff.txt
+          if git diff --no-index current proposed >> diff.txt; then
+            echo "has_diff=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_diff=true" >> "$GITHUB_OUTPUT"
+            echo '```' >> diff.txt
+            cat diff.txt >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        if: ${{ steps.diff.outputs.has_diff == 'true' }}
+        with:
+          file-path: diff.txt
