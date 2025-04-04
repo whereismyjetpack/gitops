@@ -54,5 +54,5 @@ jobs:
       - name: Build branches
         run: |
           kustomize build --enable-helm main/env/${{ matrix.env }} > main.yaml
-          kustomize build --enable-helm env/env/${{ matrix.env }} > proposed.yaml
+          kustomize build --enable-helm env/${{ matrix.env }} > proposed.yaml
           diff main.yaml proposed.yaml
