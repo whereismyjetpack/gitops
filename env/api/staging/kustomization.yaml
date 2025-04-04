@@ -11,3 +11,4 @@ labels:
   pairs:
     env: staging
     foo: baz
+    bar: baz
