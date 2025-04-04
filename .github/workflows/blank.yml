@@ -32,6 +32,8 @@ jobs:
   diff:
     name: Diff
     runs-on: ubuntu-latest
+    permissions: 
+      pull-requests: write 
     needs: detect-changes
     strategy:
       fail-fast: false
