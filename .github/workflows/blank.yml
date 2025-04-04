@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: false
-      - uses: dorny/paths-filter@v4
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: .github/config/render-filters.yaml
