@@ -1,0 +1,5 @@
+---
+api/integration:
+- env/api/integration/**
+api/staging:
+- env/api/staging/**

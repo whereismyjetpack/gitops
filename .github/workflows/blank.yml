@@ -5,13 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches:
-    - "main"
   pull_request:
     branches:
-    - "stage/web/integration"
-    - "stage/web/staging"
     - "main"
 
   # Allows you to run this workflow manually from the Actions tab
@@ -19,22 +14,45 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  detect-changes:
+    name: Detects changes
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    outputs:
+      env: ${{ steps.filter.outputs.changes }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          filters: .github/config/render-filters.yaml
+          list-files: 'json'
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+  diff:
+    name: Diff
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    strategy:
+      fail-fast: false
+      matrix:
+        env: ${{ fromJson(needs.detect-changes.outputs.env) }}
+    if: ${{ needs.detect-changes.outputs.env != '' }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          lfs: false
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          ref: main
+          path: main
+
+      - name: Build branches
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          kustomize build --enable-helm main/env/${{ matrix.env }} > main.yaml
+          kustomize build --enable-helm env/env/${{ matrix.env }} > proposed.yaml
+          diff main.yaml proposed.yaml
