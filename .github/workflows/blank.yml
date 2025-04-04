@@ -65,5 +65,5 @@ jobs:
           kustomize build --enable-helm env/${{ matrix.env }} > proposed.yaml
           ./kubectl-slice -f main.yaml -o current
           ./kubectl-slice -f proposed.yaml -o proposed
-          diff -ru current proposed >> $GIHUB_STEP_SUMMARY
+          diff -ru current proposed >> $GITHUB_STEP_SUMMARY
           diff -ru current proposed 
