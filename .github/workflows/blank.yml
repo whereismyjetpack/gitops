@@ -56,8 +56,8 @@ jobs:
           wget https://github.com/patrickdappollonio/kubectl-slice/releases/download/v1.4.2/kubectl-slice_linux_x86_64.tar.gz
           tar -xvf kubectl-slice_linux_x86_64.tar.gz
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
 
       - name: Build branches
         run: |
