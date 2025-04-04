@@ -3,9 +3,12 @@ kind: Kustomization
 
 namespace: staging
 
-commonLabels:
-  app: fastify-url-shortner
-  env: staging
 
 resources:
-  - ../../../base/api/
+- ../../../base/api/
+labels:
+- includeSelectors: true
+  pairs:
+    app: fastify-url-shortner
+    env: staging
+    foo: baz
