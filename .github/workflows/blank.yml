@@ -65,5 +65,12 @@ jobs:
           kustomize build --enable-helm env/${{ matrix.env }} > proposed.yaml
           ./kubectl-slice -f main.yaml -o current
           ./kubectl-slice -f proposed.yaml -o proposed
-          # diff -ru current proposed >> $GITHUB_STEP_SUMMARY
-          diff -ru current proposed 
+          echo '```diff' > diff.txt
+          git diff --no-index proposed current >> diff.txt || true
+          echo '```' >> diff.txt
+          cat diff.txt >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment PR
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          file-path: diff.txt
