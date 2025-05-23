@@ -1,0 +1,59 @@
+---
+name: Create Kargo Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Suite Short Name'
+        required: true
+        type: string
+        default: ''
+      name:
+        description: 'Name of the Kargo application'
+        required: true
+      ecr_repo:
+        description: 'Full ECR repo name'
+        required: true
+        type: string
+      gitops_repo:
+        description: 'GitOps repo URL'
+        required: true
+        type: string
+      okta_group:
+        description: 'Okta group name'
+        required: true
+        type: string
+
+jobs:
+  create-kargo-application:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Set Environment Variables
+        run: |
+          echo "SUITE=${{ github.event.inputs.suite }}" >> $GITHUB_ENV
+          echo "NAME=${{ github.event.inputs.name }}" >> $GITHUB_ENV
+          echo "OKTA_GROUP=${{ github.event.inputs.okta_group }}" >> $GITHUB_ENV
+          echo "ECR_REPO=${{ github.event.inputs.ecr_repo }}" >> $GITHUB_ENV
+          echo "GITOPS_REPO=${{ github.event.inputs.gitops_repo }}" >> $GITHUB_ENV
+
+      - name: Create Kargo Application
+        id: create-kargo-application
+        run: |
+          python bin/template.py
+
+      - name: tmate
+        uses: mxschmitt/action-tmate@v3

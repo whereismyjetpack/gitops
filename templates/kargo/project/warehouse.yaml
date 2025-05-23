@@ -1,0 +1,25 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: {{ name }}-gitops
+spec:
+  subscriptions:
+    - git:
+        repoURL: {{ gitops_repo }}
+        includePaths:
+          - kargo/base/resources
+          - kargo/base/{{ name }}
+          - kargo/components/{{ name }}
+          - kargo/env/{{ name }}
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: {{ name }}-ecr
+spec:
+  subscriptions:
+    - image:
+        repoURL: {{ ecr_repo }}
+        allowTags: ^main-.+$
+        imageSelectionStrategy: NewestBuild

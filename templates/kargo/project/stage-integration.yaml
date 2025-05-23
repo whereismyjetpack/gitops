@@ -1,0 +1,85 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: integration
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: ecr
+      sources:
+        direct: true
+    - origin:
+        kind: Warehouse
+        name: gitops
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: stage
+          value: integration
+        - name: imageRepo
+          value: {{ ecr_repo }}
+        - name: gitopsRepo
+          value: {{ gitops_repo }}
+        - name: srcPath
+          value: ./src
+        - name: outPath
+          value: ./out
+      steps:
+        - uses: git-clone
+          config:
+            repoURL: {% raw %}${{ vars.gitopsRepo }}{% endraw %}
+            checkout:
+              - commit: {% raw %}${{ commitFrom(vars.gitopsRepo).ID }}{% endraw %}
+                path: {% raw %}${{ vars.srcPath }}{% endraw %}
+              - branch: env-{{ name }}-{% raw %}${{ vars.stage }}{% endraw %}
+                create: true
+                path: {% raw %}${{ vars.outPath }}{% endraw %}
+        - uses: git-clear
+          config:
+            path: {% raw %}${{ vars.outPath }}{% endraw %}
+        - uses: kustomize-set-image
+          as: update-image
+          config:
+            path: {% raw %}${{ vars.srcPath }}{% endraw %}/kargo/env/{{ name }}/{% raw %}${{ vars.stage }}{% endraw %}
+            images:
+              - image: {% raw %}${{ vars.imageRepo }}{% endraw %}
+                newName: {% raw %}${{ vars.imageRepo }}{% endraw %}
+                tag: {% raw %}${{ imageFrom(vars.imageRepo).Tag }}{% endraw %}
+        - uses: yaml-update
+          config:
+            path: {% raw %}${{ vars.srcPath }}{% endraw %}/kargo/env/{{ name }}/{% raw %}${{ vars.stage }}{% endraw %}/deployment-metadata.yaml
+            updates:
+              - key: data.ref
+                value: {% raw %}${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.revision"] }}{% endraw %}
+        - uses: kustomize-build
+          config:
+            path: {% raw %}${{ vars.srcPath }}{% endraw %}/kargo/env/{{ name }}/{% raw %}${{ vars.stage }}{% endraw %}
+            outPath: {% raw %}${{ vars.outPath }}{% endraw %}
+        - uses: git-commit
+          as: commit
+          config:
+            path: {% raw %}${{ vars.outPath }}{% endraw %}
+            message: |
+            {% raw %}
+              GitOps Commit: ${{ replace(commitFrom(vars.gitopsRepo).RepoURL, '.git', '') }}/commit/${{ commitFrom(vars.gitopsRepo).ID }}
+              Source Commit: ${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.source"] }}/commit/${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.revision"] }}
+              Meta: ${{ quote(ctx.meta) }}
+            {% endraw %}
+        - uses: git-push
+          as: push
+          config:
+            path: {% raw %}${{ vars.outPath }}{% endraw %}
+        - uses: argocd-update
+          retry:
+            errorThreshold: 3
+            timeout: 15m0s
+          config:
+            apps:
+              - name: {{ suite }}-{{ name }}-{% raw %}${{ vars.stage }}{% endraw %}
+                sources:
+                  - repoURL: {% raw %}${{ vars.gitopsRepo }}{% endraw %}
+                    desiredRevision: {% raw %}${{ outputs.commit.commit }}{% endraw %}
