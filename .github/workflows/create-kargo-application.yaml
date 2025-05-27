@@ -21,7 +21,7 @@ on:
         description: 'GitOps repo URL'
         required: true
         type: string
-        default: 'whereismymetpack/gitops'
+        default: 'whereismyjetpack/gitops'
       kargo_project_name:
         description: 'Add a parallel pipeline to an existing Kargo project. If not specified, a new project will be created.'
         required: false
