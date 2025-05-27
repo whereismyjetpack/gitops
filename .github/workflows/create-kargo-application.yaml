@@ -16,10 +16,17 @@ on:
         description: 'Full ECR repo name'
         required: true
         type: string
+        default: 918073871806.dkr.ecr.us-west-2.amazonaws.com/admin-services/project-name
       gitops_repo:
         description: 'GitOps repo URL'
         required: true
         type: string
+        default: 'https://github.com/whereismymetpack/gitops.git'
+      kargo_project_name:
+        description: 'Add a parallel pipeline to an existing Kargo project. If not specified, a new project will be created.'
+        required: false
+        type: string
+        default: '{{ suite }}-{{ name }}-project'
       okta_group:
         description: 'Okta group name'
         required: true
@@ -32,6 +39,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Checkout GitOps Repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.gitops_repo }}
+          path: gitops
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -49,11 +62,22 @@ jobs:
           echo "OKTA_GROUP=${{ github.event.inputs.okta_group }}" >> $GITHUB_ENV
           echo "ECR_REPO=${{ github.event.inputs.ecr_repo }}" >> $GITHUB_ENV
           echo "GITOPS_REPO=${{ github.event.inputs.gitops_repo }}" >> $GITHUB_ENV
+          echo "KARGO_PROJECT_NAME=${{ github.event.inputs.kargo_project_name }}" >> $GITHUB_ENV
 
       - name: Create Kargo Application
         id: create-kargo-application
         run: |
           python bin/template.py
 
-      - name: tmate
-        uses: mxschmitt/action-tmate@v3
+      - name: Copy Kargo Application into GitOps Repo
+        run: |
+          git clone ${{ github.event.inputs.gitops_repo }} gitops
+          cd gitops
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          path: gitops
+
+      # - name: tmate
+      #   uses: mxschmitt/action-tmate@v3
