@@ -2,7 +2,7 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Project
 metadata:
-  name: {{ suite }}-{{ name }}-project
+  name: "{{ kargo_project_name }}"
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
