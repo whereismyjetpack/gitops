@@ -21,7 +21,7 @@ on:
         description: 'GitOps repo URL'
         required: true
         type: string
-        default: 'https://github.com/whereismymetpack/gitops.git'
+        default: 'whereismymetpack/gitops'
       kargo_project_name:
         description: 'Add a parallel pipeline to an existing Kargo project. If not specified, a new project will be created.'
         required: false
@@ -61,7 +61,7 @@ jobs:
           echo "NAME=${{ github.event.inputs.name }}" >> $GITHUB_ENV
           echo "OKTA_GROUP=${{ github.event.inputs.okta_group }}" >> $GITHUB_ENV
           echo "ECR_REPO=${{ github.event.inputs.ecr_repo }}" >> $GITHUB_ENV
-          echo "GITOPS_REPO=${{ github.event.inputs.gitops_repo }}" >> $GITHUB_ENV
+          echo "GITOPS_REPO=https://${{ github.event.inputs.gitops_repo }}.git" >> $GITHUB_ENV
           echo "KARGO_PROJECT_NAME=${{ github.event.inputs.kargo_project_name }}" >> $GITHUB_ENV
 
       - name: Create Kargo Application
