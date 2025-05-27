@@ -74,7 +74,7 @@ jobs:
 
       - name: Copy Kargo Application into GitOps Repo
         run: |
-          cp -rf rendered/kargo/ gitops/kargo 
+          cp -rf rendered/kargo/. gitops/kargo/
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
