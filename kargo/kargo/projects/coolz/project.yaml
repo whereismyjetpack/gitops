@@ -1,0 +1,22 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Project
+metadata:
+  name: "pro-coolz-project"
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: pro-coolz-project
+  namepsace: pro-coolz-project
+spec:
+  promotionPolicies:
+  - stageSelector:
+      name: "glob:integration*"
+    autoPromotionEnabled: true
+  - stageSelector:
+      name: "glob:staging*"
+    autoPromotionEnabled: true
+  - stageSelector:
+      name: "glob:production*"
+    autoPromotionEnabled: false
