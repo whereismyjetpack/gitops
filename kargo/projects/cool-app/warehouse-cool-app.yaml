@@ -1,0 +1,25 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: cool-app-gitops
+spec:
+  subscriptions:
+    - git:
+        repoURL: https://whereismyjetpack/gitops.git
+        includePaths:
+          - kargo/base/resources
+          - kargo/base/cool-app
+          - kargo/components/cool-app
+          - kargo/env/cool-app
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: cool-app-ecr
+spec:
+  subscriptions:
+    - image:
+        repoURL: 918073871806.dkr.ecr.us-west-2.amazonaws.com/admin-services/project-name
+        allowTags: ^main-.+$
+        imageSelectionStrategy: NewestBuild
