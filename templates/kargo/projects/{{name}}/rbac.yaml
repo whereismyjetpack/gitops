@@ -6,7 +6,7 @@ metadata:
   annotations:
     rbac.kargo.akuity.io/claim.groups: '{{ okta_group }}'
   name: {{ suite }}-writer
-  namespace: rev-utility-billing-project
+  namespace: {{ suite }}-{{ name }}-project
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role

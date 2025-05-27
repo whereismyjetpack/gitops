@@ -8,7 +8,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: ProjectConfig
 metadata:
   name: {{ suite }}-{{ name }}-project
-  namepsace: {{suite }}-{{ name }}-project
+  namepsace: {{ suite }}-{{ name }}-project
 spec:
   promotionPolicies:
   - stageSelector:
