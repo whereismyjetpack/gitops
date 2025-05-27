@@ -4,15 +4,15 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   annotations:
-    rbac.kargo.akuity.io/claim.groups: 'okta-group'
+    rbac.kargo.akuity.io/claim.groups: 'fasdf'
   name: pro-writer
-  namespace: pro-cool-app-project
+  namespace: pro-cool-app-projectzzz
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: pro-writer
-  namespace: pro-cool-app-project
+  namespace: pro-cool-app-projectzzz
 rules:
   - apiGroups:
       - ''
@@ -93,7 +93,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: pro-writer
-  namespace: pro-cool-app-project
+  namespace: pro-cool-app-projectzzz
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -101,4 +101,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: pro-writer
-    namespace: pro-cool-app-project
+    namespace: pro-cool-app-projectzzz

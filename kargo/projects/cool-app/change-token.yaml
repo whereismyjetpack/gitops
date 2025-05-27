@@ -3,7 +3,7 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: changeapi
-  namespace: pro-cool-app-project
+  namespace: pro-cool-app-projectzzz
 spec:
   refreshInterval: 1h
   secretStoreRef:
