@@ -80,6 +80,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           path: gitops
+          title: "Create Kargo Application: ${{ github.event.inputs.name }}"
 
       # - name: tmate
       #   uses: mxschmitt/action-tmate@v3
