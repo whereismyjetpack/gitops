@@ -24,7 +24,8 @@ def set_variables():
   if kargo_project_name is None:
     kargo_project_name = f"{suite}-{name}-project"
 
-  return {
+  # Allow all variables to be templated using Jinja2
+  variables = {
     'suite': suite,
     'name': name,
     'okta_group': okta_group,
@@ -32,6 +33,12 @@ def set_variables():
     'gitops_repo': gitops_repo,
     'kargo_project_name': kargo_project_name,
   }
+  # Render each variable as a Jinja2 template in case it contains template expressions
+  env = Environment()
+  for key, value in variables.items():
+    if isinstance(value, str):
+      variables[key] = env.from_string(value).render(**variables)
+  return variables
 
 
 os.makedirs('rendered', exist_ok=True)
