@@ -1,0 +1,85 @@
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: cool-apps-integration
+spec:
+  requestedFreight:
+    - origin:
+        kind: Warehouse
+        name: cool-apps-ecr
+      sources:
+        direct: true
+    - origin:
+        kind: Warehouse
+        name: cool-apps-gitops
+      sources:
+        direct: true
+  promotionTemplate:
+    spec:
+      vars:
+        - name: stage
+          value: cool-apps-integration
+        - name: imageRepo
+          value: 918073871806.dkr.ecr.us-west-2.amazonaws.com/admin-services/project-name
+        - name: gitopsRepo
+          value: https://whereismyjetpack/gitops.git
+        - name: srcPath
+          value: ./src
+        - name: outPath
+          value: ./out
+      steps:
+        - uses: git-clone
+          config:
+            repoURL: ${{ vars.gitopsRepo }}
+            checkout:
+              - commit: ${{ commitFrom(vars.gitopsRepo).ID }}
+                path: ${{ vars.srcPath }}
+              - branch: env-cool-apps-${{ vars.stage }}
+                create: true
+                path: ${{ vars.outPath }}
+        - uses: git-clear
+          config:
+            path: ${{ vars.outPath }}
+        - uses: kustomize-set-image
+          as: update-image
+          config:
+            path: ${{ vars.srcPath }}/kargo/env/cool-apps/${{ vars.stage }}
+            images:
+              - image: ${{ vars.imageRepo }}
+                newName: ${{ vars.imageRepo }}
+                tag: ${{ imageFrom(vars.imageRepo).Tag }}
+        - uses: yaml-update
+          config:
+            path: ${{ vars.srcPath }}/kargo/env/cool-apps/${{ vars.stage }}/deployment-metadata.yaml
+            updates:
+              - key: data.ref
+                value: ${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.revision"] }}
+        - uses: kustomize-build
+          config:
+            path: ${{ vars.srcPath }}/kargo/env/cool-apps/${{ vars.stage }}
+            outPath: ${{ vars.outPath }}
+        - uses: git-commit
+          as: commit
+          config:
+            path: ${{ vars.outPath }}
+            message: |
+            
+              GitOps Commit: ${{ replace(commitFrom(vars.gitopsRepo).RepoURL, '.git', '') }}/commit/${{ commitFrom(vars.gitopsRepo).ID }}
+              Source Commit: ${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.source"] }}/commit/${{ imageFrom(vars.imageRepo).Annotations["org.opencontainers.image.revision"] }}
+              Meta: ${{ quote(ctx.meta) }}
+            
+        - uses: git-push
+          as: push
+          config:
+            path: ${{ vars.outPath }}
+        - uses: argocd-update
+          retry:
+            errorThreshold: 3
+            timeout: 15m0s
+          config:
+            apps:
+              - name: pro-cool-apps-${{ vars.stage }}
+                sources:
+                  - repoURL: ${{ vars.gitopsRepo }}
+                    desiredRevision: ${{ outputs.commit.commit }}

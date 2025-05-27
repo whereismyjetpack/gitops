@@ -1,0 +1,31 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: changeapi
+  namespace: pro-cool-apps-project
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: cluster-secret-store
+    kind: ClusterSecretStore
+  target:
+    creationPolicy: Owner
+    deletionPolicy: Retain
+    name: changeapi
+    template:
+      metadata:
+        labels:
+          kargo.akuity.io/cred-type: generic
+      data:
+        token: '{{ .token | toString }}'
+      engineVersion: v2
+      mergePolicy: Replace
+  data:
+    - remoteRef:
+        conversionStrategy: Default
+        decodingStrategy: None
+        key: engops-production/apps/kargo
+        metadataPolicy: None
+        property: change-token
+      secretKey: token
