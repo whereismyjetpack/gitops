@@ -34,6 +34,9 @@ on:
 
 jobs:
   create-kargo-application:
+    permissions:
+      contents: write
+      pull-requests: write
     runs-on: ubuntu-latest
 
     steps:
