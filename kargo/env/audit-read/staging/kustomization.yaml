@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonAnnotations:
+  department: rnd
+  environment: staging
+  service: audit-read
+  suite: pro
+  team: audit-read
+
+helmCharts:
+  - name: application-core
+    namespace: audit-read-staging
+    releaseName: audit-read
+    repo: https://opengov.github.io/helm-charts-external/
+    valuesFile: values.yaml
+    version: 4.5.2
+
+resources:
+  - deployment-metadata.yaml
+
+images:
+  - name: 918073871806.dkr.ecr.us-west-2.amazonaws.com/admin-services/project-name
+    newName: 918073871806.dkr.ecr.us-west-2.amazonaws.com/admin-services/project-name
+    newTag: kargo-replaces-this

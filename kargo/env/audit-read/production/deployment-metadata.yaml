@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: '-5'
+  name: deployment-metadata
+data:
+  environment: production
+  ref: kargo-replaces-this
