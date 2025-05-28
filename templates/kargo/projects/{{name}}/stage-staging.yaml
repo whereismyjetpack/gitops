@@ -2,24 +2,26 @@
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
-  name: {{name}}-integration
+  name: staging
 spec:
   requestedFreight:
     - origin:
         kind: Warehouse
         name: {{name}}-ecr
       sources:
-        direct: true
+        stages:
+          - integration
     - origin:
         kind: Warehouse
         name: {{name}}-gitops
       sources:
-        direct: true
+        stages:
+          - integration
   promotionTemplate:
     spec:
       vars:
         - name: stage
-          value: {{name}}-integration
+          value: staging
         - name: imageRepo
           value: {{ ecr_repo }}
         - name: gitopsRepo
